@@ -42,9 +42,11 @@ mvn clean install
   - redis
   - Docker (redis, jetty)
   
-https://hub.docker.com/_/jetty/
-https://hub.docker.com/_/redis/
-https://docs.docker.com/machine/get-started/
+[https://hub.docker.com/_/jetty/](https://hub.docker.com/_/jetty/)
+
+[https://hub.docker.com/_/redis/](https://hub.docker.com/_/redis/)
+
+[https://docs.docker.com/machine/get-started/](https://docs.docker.com/machine/get-started/)
 
 ### Variáveis de ambiente disponíveis e seus valores default:
 
