@@ -23,3 +23,97 @@ Lembre-se que na hora da avaliação olharemos para:
 - organização de código;
 - desempenho;
 - manutenabilidade.
+
+
+# Catho - Job Search API
+
+Implementação do teste backend-test da catho.
+
+## Importação do projeto:
+Para importar o projeto no eclipse rode: `mvn eclipse:eclipse` e importe como um projeto normal ou importe como um projeto maven.
+
+## Build e Testes unitários:
+mvn clean install
+
+## Tecnologias utilizadas:
+
+  - java (guice + resteasy)
+  - maven
+  - redis
+  - Docker (redis, jetty)
+  
+https://hub.docker.com/_/jetty/
+https://hub.docker.com/_/redis/
+https://docs.docker.com/machine/get-started/
+
+## Variáveis de ambiente disponíveis e seus valores default:
+
+catho.jobs.file=src/main/resources/vagas.json
+catho.cache.enabled=true
+catho.cache.password=pass
+catho.cache.master.server=localhost
+catho.cache.master.connection.pool.size=5
+catho.cache.slave.servers=localhost
+catho.cache.slave.connection.pool.size=5
+catho.cache.connect.timeout=300
+catho.cache.default.ttl=300
+catho.cache.use.password=false
+catho.cache.connection.pool.max.wait=100
+catho.cache.connection.pool.test.on.borrow=false
+catho.cache.port=6379
+
+## Como utilizar:
+
+Para rodar o projeto no ambiente de dev rode o comando abaixo na pasta do projeto substituindo os parâmetros necessários:
+
+-Dcatho.cache.master.server=192.168.99.100 - host do redis server master.
+-Dcatho.cache.slave.servers=192.168.99.100 - host do redis server slave.
+-Dcatho.cache.port=6379  - porta do redis server.
+-Dcatho.cache.password=pass - password definido para acessar o redis.
+-Dcatho.cache.use.password=false - define se o redis necessita de password ou não.
+
+```sh
+$ mvn jetty:run -Dcatho.cache.master.server=192.168.99.100 -Dcatho.cache.slave.servers=192.168.99.100 -Dcatho.cache.port=6379 -Dcatho.cache.use.password=false
+```
+
+Para testar a api acesse:
+[http://localhost:8080/api/v1/job/find?qType=CITY&q=Porto%20Alegre&hash=0&size=20&sortType=SALARY&orderType=ASC](http://localhost:8080/api/v1/job/find?qType=CITY&q=Porto%20Alegre&hash=0&size=20&sortType=SALARY&orderType=ASC)
+
+[http://localhost:8080/catho/index.html](http://localhost:8080/catho/index.html)
+
+
+## Configuração de ambiente
+
+Se você tem o docker instalado:
+inicialize uma nova instancia do redis
+docker run -d -p 6379:6379 --name redis redis redis-server
+
+Para inicializar via docker:
+Variaveis necessárias para inicializar com cache ativo:
+catho.cache.master.server=192.168.99.100 - host do redis server master.
+catho.cache.slave.servers=192.168.99.100 - host do redis server slave.
+catho.cache.port=6379  - porta do redis server.
+catho.cache.password=pass - password definido para acessar o redis.
+catho.cache.use.password=false - define se o redis necessita de password ou não.
+catho.jobs.file=/tmp/vagas.json - define o local do arquivo json utilizado para buscar as vagas.
+-v /path/to/vagas/json/vagas.json:/tmp/vagas.json - mapeamento do arquivo json dentro do container docker.
+
+inicializar como serviço:
+docker run -d -p 8080:8080 -v /path/to/war/file/target/jobsearch.war:/var/lib/jetty/webapps/ROOT.war -v /path/to/vagas/json/vagas.json:/tmp/vagas.json -e "catho.jobs.file"="/tmp/vagas.json" -e "catho.cache.master.server"="192.168.99.100" -e "catho.cache.slave.servers"="192.168.99.100" -e "catho.cache.port"="6379" -e "catho.cache.use.password"="false" --name jetty jetty:9.2
+
+inicializar acompanhando o log:
+docker run -ti -p 8080:8080 -v /path/to/war/file/target/jobsearch.war:/var/lib/jetty/webapps/ROOT.war -v /path/to/vagas/json/vagas.json:/tmp/vagas.json -e "catho.jobs.file"="/tmp/vagas.json" -e "catho.cache.master.server"="192.168.99.100" -e "catho.cache.slave.servers"="192.168.99.100" -e "catho.cache.port"="6379" -e "catho.cache.use.password"="false" --name jetty jetty:9.2
+
+
+## Recurso disponível na API
+[http://localhost:8080/api/v1/job/find?qType=CITY&q=Porto%20Alegre&hash=0&size=20&sortType=SALARY&orderType=ASC](http://localhost:8080/api/v1/job/find?qType=CITY&q=Porto%20Alegre&hash=0&size=20&sortType=SALARY&orderType=ASC)
+[http://localhost:8080/catho/index.html](http://localhost:8080/catho/index.html)
+
+Parâmetros disponíveis:
+qType=CITY - tipo da busca. Valores aceitos: [DESCRIPTION, CITY]
+q=Porto%20Alegre - valor da busca.
+hash=0 - página da busca
+size=20 - tamanho da paginação
+sortType=SALARY - tipo da ordenação. Valores aceitos: [TITLE, SALARY]
+orderType=ASC - ordenação crescente ou decrescente: [DESC, ASC]
+

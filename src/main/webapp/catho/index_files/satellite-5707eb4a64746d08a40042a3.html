@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"></head><body>
+    <script>
+      (function(){
+        function escapeForHtml(str){
+          if (!str) return str
+          return str
+            .replace(/\&/g, '&amp;')
+            .replace(/\</g, '&lt;')
+            .replace(/\>/g, '&gt;')
+            .replace(/\"/g, '&quot;')
+            .replace(/\'/g, '&#x27;')
+            .replace(/\//g, '&#x2F;')
+        }
+
+        var regexChars = /[.*+?^${}()|[\]\\]/g;
+        function escapeForRegex(str) {
+          return str.replace(regexChars, "\\$&");
+        }
+
+        function parseQueryString(){
+          var ret = {}, parts = location.search.substring(1).split('&');
+          for (var i = parts.length; i--;) {
+            var vardef = parts[i].split('='), varname = vardef[0], value = vardef[1];
+            ret[varname] = unescape(value);
+          }
+          return ret;
+        }
+
+        var queryParams = parseQueryString();
+
+        var markup = "<script type=\"text/javascript\">\n  /* <![CDATA[ */\n  var google_conversion_id = 1011555163;\n  var google_custom_params = window.google_tag_params;\n  var google_remarketing_only = true;\n  /* ]]> */\n</scr"+"ipt>\n<script type=\"text/javascript\" src=\"//www.googleadservices.com/pagead/conversion.js\"></scr"+"ipt>\n<noscript>\n  <div style=\"display:inline;\">\n  \t<img height=\"1\" width=\"1\" style=\"border-style:none;\" alt=\"\" src=\"//googleads.g.doubleclick.net/pagead/viewthroughconversion/1011555163/?value=0&amp;guid=ON&amp;script=0\"/>\n  </div>\n</noscript>";
+
+        for (var name in queryParams){
+          var regex = new RegExp('%' + escapeForRegex(name) + '%', 'ig');
+          markup = markup.replace(regex, 
+            escapeForHtml(queryParams[name]));
+        }
+
+        document.write(markup)
+      })();
+    </script><script type="text/javascript">
+  /* <![CDATA[ */
+  var google_conversion_id = 1011555163;
+  var google_custom_params = window.google_tag_params;
+  var google_remarketing_only = true;
+  /* ]]> */
+</script>
+<script type="text/javascript" src="conversion.js"></script><iframe name="google_conversion_frame" title="Google conversion frame" src="https://googleads.g.doubleclick.net/pagead/viewthroughconversion/1011555163/?random=1484559791213&amp;cv=8&amp;fst=1484559791213&amp;num=1&amp;fmt=1&amp;guid=ON&amp;u_h=800&amp;u_w=1280&amp;u_ah=730&amp;u_aw=1280&amp;u_cd=24&amp;u_his=3&amp;u_tz=-120&amp;u_java=true&amp;u_nplug=7&amp;u_nmime=30&amp;frm=2&amp;url=http%3A%2F%2Fassets.adobedtm.com%2Fe647565cdf580da4b39ef486f482e445b513beb0%2Fscripts%2Fsatellite-5707eb4a64746d08a40042a3.html&amp;ref=http%3A%2F%2Fwww.catho.com.br%2Fvagas%2F%3FState%3Dresultado%26tipoBusca%3Dpalavra_chave%26perfil_id%3D1%26q%3DProgramador%2BJava%26pais_id%3D31%26where_search%3D1%26how_search%3D2%26faixa_sal_id%3D-1%26faixa_sal_id_combinar%3D1%26inputDate%3D-1" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" width="300" height="13" frameborder="0"></iframe>
+<noscript>
+  <div style="display:inline;">
+  	<img height="1" width="1" style="border-style:none;" alt="" src="//googleads.g.doubleclick.net/pagead/viewthroughconversion/1011555163/?value=0&amp;guid=ON&amp;script=0"/>
+  </div>
+</noscript>
+  
+
+</body></html>
