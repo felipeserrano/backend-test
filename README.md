@@ -22,7 +22,7 @@ Lembre-se que na hora da avaliação olharemos para:
 
 - organização de código;
 - desempenho;
-- manutenabilidade.
+- manutenabilidade.ss
 
 
 ## Catho - Job Search API
@@ -41,7 +41,7 @@ mvn clean install
   - maven
   - redis
   - Docker (redis, jetty)
-  
+
 [https://hub.docker.com/_/jetty/](https://hub.docker.com/_/jetty/)
 
 [https://hub.docker.com/_/redis/](https://hub.docker.com/_/redis/)
@@ -129,4 +129,3 @@ Parâmetros disponíveis para as buscas:
  - size=20 - tamanho da paginação
  - sortType=SALARY - tipo da ordenação. Valores aceitos: [TITLE, SALARY]
  - orderType=ASC - ordenação crescente ou decrescente: [DESC, ASC]
-
